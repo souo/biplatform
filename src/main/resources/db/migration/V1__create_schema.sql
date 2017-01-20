@@ -1,0 +1,10 @@
+-- USERS
+CREATE TABLE "bi_users_rule" (
+  "id" INT NOT NULL AUTO_INCREMENT,
+  "login" VARCHAR NOT NULL ,
+  "rule_id" SMALLINT NOT NULL ,
+  "state" TINYINT NOT NULL DEFAULT 1,
+  "create_on" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP() ,
+  PRIMARY KEY ("id")
+);
+

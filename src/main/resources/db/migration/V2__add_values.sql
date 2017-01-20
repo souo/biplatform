@@ -1,0 +1,1 @@
+INSERT INTO "bi_users_rule" ("login", "rule_id") VALUES ('admin', 0);
