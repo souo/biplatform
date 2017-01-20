@@ -3,7 +3,7 @@ biplatform
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/06eb6fd6cfa948b3b7a2480b154c5cf6)](https://www.codacy.com/app/souo/biplatform?utm_source=github.com&utm_medium=referral&utm_content=souo/biplatform&utm_campaign=badger)
 
-这不是一个真正的报表平台，仅有一些简单的功能。只是个玩具项目，是出于学习scala和akka的目的。
+基于scala 、akka实现了一个简单的报表工具。该项目是个玩具项目，用于个人学习scala和akka。
 
 核心功能
 ------
