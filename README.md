@@ -2,6 +2,7 @@ biplatform
 -----------
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/06eb6fd6cfa948b3b7a2480b154c5cf6)](https://www.codacy.com/app/souo/biplatform?utm_source=github.com&utm_medium=referral&utm_content=souo/biplatform&utm_campaign=badger)
+
 [![Build Status](https://travis-ci.org/souo/biplatform.svg?branch=master)](https://travis-ci.org/souo/biplatform)
 
 基于scala 、akka实现了一个简单的报表工具。该项目是个玩具项目，用于个人学习scala和akka。
