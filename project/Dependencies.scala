@@ -7,6 +7,7 @@ object Version {
   val circeVersion = "0.6.1"
   val akkaV = "2.4.14"
   val akkaHttpV = "10.0.0"
+  val ficusV = "1.4.0"
   val catsV = "0.8.1"
 }
 
@@ -16,8 +17,6 @@ object Libary {
 
   val cats = "org.typelevel" %% "cats" % catsV
 
-//  val elastic4sCore=  "com.sksamuel.elastic4s"  %% "elastic4s-core" % "1.7.0"
-
   val guava = "com.google.guava" % "guava" % "18.0"
   val commonsIo = "commons-io" % "commons-io" % "2.4"
   val slf4jApi = "org.slf4j" % "slf4j-api" % slf4jVersion
@@ -26,6 +25,7 @@ object Libary {
   val loggingStack = Seq(slf4jApi, slf4jLog4j12, scalaLogging)
 
   val typesafeConfig = "com.typesafe" % "config" % "1.3.0"
+  val ficus = "com.iheart" %% "ficus" % ficusV
 
   val jodaTime = "joda-time" % "joda-time" % "2.8.2"
   val jodaConvert = "org.joda" % "joda-convert" % "1.7"
@@ -87,6 +87,7 @@ object Dependencies {
   val designer = loggingStack ++ circe ++ slickStack ++ akkaStack ++ Seq(
     cats,
     typesafeConfig,
+    ficus,
     jodaTime,
     jodaConvert,
     javaxMailSun,
