@@ -20,7 +20,7 @@ import scala.language.reflectiveCalls
  */
 trait HttpService extends StrictLogging {
 
-  def startService(cubeSingleton: ActorRef, userShard: ActorRef)(implicit actorSystem: ActorSystem): Unit = {
+  def startService(cubeSingleton: ActorRef, userShard: ActorRef, dsSingleton: ActorRef)(implicit actorSystem: ActorSystem): Unit = {
     implicit val ec = actorSystem.dispatcher
     implicit val materializer = ActorMaterializer()
     val _config = actorSystem.settings.config
@@ -35,11 +35,13 @@ trait HttpService extends StrictLogging {
       }
       override val users: ActorRef = userShard
       override val cubeNode: ActorRef = cubeSingleton
+      override val dsNode: ActorRef = dsSingleton
       lazy val sessionConfig = SessionConfig.fromConfig(config.rootConfig).copy(sessionEncryptData = true)
       implicit lazy val sessionManager: SessionManager[Session] = new SessionManager[Session](sessionConfig)
-      override implicit def ec: ExecutionContext = system.dispatchers.lookup("akka-http-routes-dispatcher")
-      val mysqlStorage = new MysqlStorage(config)
 
+      override implicit def ec: ExecutionContext = system.dispatchers.lookup("akka-http-routes-dispatcher")
+
+      val mysqlStorage = new MysqlStorage(config)
       val mysqlEngine = new MysqlEngine(mysqlStorage)
       val mysqlStorageActor = system.actorOf(MysqlStorageNode.props(mysqlEngine), MysqlStorageNode.name)
     }

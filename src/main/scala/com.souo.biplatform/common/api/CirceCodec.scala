@@ -53,6 +53,11 @@ trait CirceEncoders {
     }
   }
 
+  implicit val dataSourceEncoder: Encoder[DataSource] = Encoder.instance {
+    case csv: CsvSource     ⇒ csv.asJson
+    case mysql: MysqlSource ⇒ mysql.asJson
+  }
+
 }
 
 trait CirceDecoders {
@@ -90,6 +95,10 @@ trait CirceDecoders {
           Left(DecodingFailure("error", c.history))
       }
     }
+  }
+
+  implicit val dataSourceDecoder: Decoder[DataSource] = {
+    Decoder[CsvSource].map[DataSource](identity) or Decoder[MysqlSource].map[DataSource](identity)
   }
 
 }

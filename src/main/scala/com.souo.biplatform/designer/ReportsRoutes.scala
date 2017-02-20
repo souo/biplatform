@@ -7,7 +7,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.pattern.ask
 import akka.util.Timeout
 import cats.data.Validated.{Invalid, Valid}
-import com.souo.biplatform.common.api.RoutesSupport
+import com.souo.biplatform.common.api.{DefaultTimeOut, RoutesSupport}
 import com.souo.biplatform.model.{QueryModel, ReportMeta, ReportQuery}
 import com.souo.biplatform.queryrouter.DataSet
 import com.souo.biplatform.system.{ReportNode, UserNode}
@@ -21,11 +21,9 @@ import scala.concurrent.duration._
 /**
  * Created by souo on 2016/12/26
  */
-trait ReportsRoutes extends RoutesSupport with StrictLogging with SessionSupport {
+trait ReportsRoutes extends RoutesSupport with StrictLogging with SessionSupport with DefaultTimeOut {
 
   val users: ActorRef
-
-  implicit val timeOut = Timeout(10 seconds)
 
   val reportsRoutes = pathPrefix("reports") {
     (get & pathEnd) {

@@ -4,10 +4,10 @@ import java.util.concurrent.atomic.AtomicInteger
 
 import akka.NotUsed
 import akka.stream.{FlowShape, Graph, Outlet, SourceShape}
-import akka.stream.scaladsl.{Broadcast, Concat, Flow, GraphDSL, Merge, Source, Zip}
+import akka.stream.scaladsl.{Broadcast, Flow, GraphDSL, Source, Zip}
 import cats.data.Validated.{Invalid, Valid}
 import com.typesafe.scalalogging.StrictLogging
-import com.souo.biplatform.model.QueryModel
+import com.souo.biplatform.model.{Dimension, Measure, MysqlSource, QueryModel}
 import com.souo.biplatform.queryrouter.DataCellType._
 import com.souo.biplatform.queryrouter._
 import com.souo.biplatform.queryrouter.mysql.MysqlQueryBuilder.SqlResult
@@ -17,32 +17,11 @@ import slick.driver.MySQLDriver.api._
 /**
  * Created by souo on 2017/1/5
  */
-class MysqlEngine(storage: MysqlStorage) extends ExecutionEngine with StrictLogging {
+class MysqlEngine(source:MysqlSource) extends ExecutionEngine with StrictLogging {
 
   val queryBuilder = new MysqlQueryBuilder
 
-  private def getResult[Result >: GetResult[DataRow]](metaRow: DataRow, rowIndexInc: () ⇒ Int): Result = GetResult { r ⇒
-    val rowIndex = rowIndexInc()
-    var colIndex = 0
-    DataRow(metaRow.cells.map { cell ⇒
-      val (tpe, props) = cell.`type` match {
-        case ROW_HEADER_HEADER ⇒
-          (
-            ROW_HEADER,
-            Map("dimension" → cell.value)
-          )
-        case COLUMN_HEADER ⇒
-          colIndex += 1
-          (DATA_CELL, Map("position" → s"$rowIndex:$colIndex"))
-      }
-
-      DataCell(
-        r.nextString(),
-        tpe,
-        props
-      )
-    })
-  }
+  val storege  = new MysqlStorage(source)
 
   override def execute(query: QueryModel): Graph[SourceShape[DataRow], NotUsed] = {
     GraphDSL.create() { implicit builder ⇒
@@ -52,8 +31,8 @@ class MysqlEngine(storage: MysqlStorage) extends ExecutionEngine with StrictLogg
       val A: Outlet[Boolean] = {
         val source = {
           query.check() match {
-            case Invalid(l) ⇒
-              Source.failed[Boolean](new RuntimeException(l.toList.mkString(";")))
+            case Invalid(s) ⇒
+              Source.failed[Boolean](new RuntimeException(s))
             case Valid(v) ⇒
               Source.single[Boolean](v)
           }
@@ -91,21 +70,7 @@ class MysqlEngine(storage: MysqlStorage) extends ExecutionEngine with StrictLogg
 
       val E = builder.add(Zip[SqlResult, DataRow])
 
-      val F = builder.add(Flow[(SqlResult, DataRow)].flatMapConcat {
-        case (r, d) ⇒
-          GraphDSL.create[SourceShape[DataRow]]() { implicit b ⇒
-            import GraphDSL.Implicits._
-            val rowIndex = new AtomicInteger(0)
-            val sql =
-              sql"""#${r.sql}""".as(getResult(d, () ⇒ {
-                rowIndex.incrementAndGet()
-              }))
-            val head = Source.single(d)
-            val body = Source.fromPublisher(storage.client.stream(sql))
-            val q = b.add(head.concat(body))
-            SourceShape(q.out)
-          }
-      })
+      val F =  builder.add(storege.flow)
       // format: OFF
 
                 C ~> D ~> E.in1
@@ -117,5 +82,25 @@ class MysqlEngine(storage: MysqlStorage) extends ExecutionEngine with StrictLogg
       SourceShape(F.out)
     }
   }
+}
+
+object MysqlEngine extends App{
+
+  val engine = new MysqlEngine(MysqlSource("10.209.44.12", 10043, "wanda", "wanda", "wanda"))
+  val queryModel = QueryModel(
+    "app_visit_week",
+    List(
+      Dimension("visit_type", "", None, "string"),
+      Dimension("source", "", None, "string")
+    ),
+    List(
+      Measure(Dimension("uv", "", None, "string"), "SUM"),
+      Measure(Dimension("pv", "", None, "string"), "COUNT")
+    ),
+    Some(
+      List()
+    )
+  )
+
 }
 

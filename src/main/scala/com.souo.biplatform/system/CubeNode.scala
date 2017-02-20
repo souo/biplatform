@@ -9,8 +9,8 @@ import org.joda.time.DateTime
 import CubeNode._
 
 /**
- * Created by souo on 2016/12/13
- */
+  * Created by souo on 2016/12/13
+  */
 class CubeNode extends Node {
 
   var cubes = Cubes()
@@ -53,7 +53,7 @@ class CubeNode extends Node {
       val meta = CubeMeta(cubeId, name, user, None, DateTime.now())
       val cube = Cube(meta, schema)
       val replyTo = sender()
-      persistAsync(Added(cube)){ evt ⇒
+      persistAsync(Added(cube)) { evt ⇒
         updateCubes(evt)
         save()
         replyTo ! meta
@@ -62,13 +62,13 @@ class CubeNode extends Node {
       cubes.get(id) match {
         case Some(cube) ⇒
           val newMeta = cube.meta.copy(
-            cubeName      = name,
-            modifyBy      = Some(user),
+            cubeName = name,
+            modifyBy = Some(user),
             latModifyTime = DateTime.now()
           )
           val newCube = Cube(newMeta, schema)
           val replyTo = sender()
-          persistAsync(CubeUpdated(id, newCube)){ evt ⇒
+          persistAsync(CubeUpdated(id, newCube)) { evt ⇒
             updateCubes(evt)
             save()
             replyTo ! newMeta
@@ -81,7 +81,7 @@ class CubeNode extends Node {
       cubes.get(id) match {
         case Some(cube) ⇒
           val replyTo = sender()
-          persistAsync(CubeRemoved(id)){ evt ⇒
+          persistAsync(CubeRemoved(id)) { evt ⇒
             updateCubes(evt)
             save()
             replyTo ! None
@@ -117,26 +117,39 @@ class CubeNode extends Node {
 object CubeNode {
 
   def props = Props(classOf[CubeNode])
+
   def name = "GlobalCube"
 
   //cmd  message
   trait Command extends UserNode.Command
 
   case class Add(name: String, login: String, schema: CubeSchema) extends Command
-  case class UpdateCube(cubeId: UUID, name: String, login: String, schema: CubeSchema) extends Command
+
+  case class UpdateCube(cubeId: UUID,
+                        name: String,
+                        login: String,
+                        schema: CubeSchema) extends Command
+
   case class RemoveCube(cubeId: UUID, login: String) extends Command
 
   //evt message
   sealed trait Event extends Serializable
+
   case class Added(cube: Cube) extends Event
+
   case class CubeRemoved(cubeId: UUID) extends Event
+
   case class CubeUpdated(cubeId: UUID, cube: Cube) extends Event
 
   //other message
   case object ListAllCube
-  case class GetCubeSchema(cubeId: UUID)
+
+  case class Get(cubeId: UUID)
+
   case object NoSuchCube
+
   case class CubeCreated(meta: CubeMeta)
 
   case class Snapshot(cubes: Cubes)
+
 }

@@ -60,11 +60,15 @@ object ClusterMain extends HttpService
       override val system: ActorSystem = designerSystem
     }.shardUser
 
+    val dsNode = new DSNodeSingleton {
+      override val system: ActorSystem = designerSystem
+    }.dsNode
+
     designerSystem.actorOf(Props(classOf[ClusterListen]), "clusterListen")
 
     Cluster(designerSystem).registerOnMemberUp {
       logger.info("All cluster nodes are up!")
-      startService(cubeNode, shardUsers)
+      startService(cubeNode, shardUsers, dsNode)
     }
 
     Cluster(designerSystem).registerOnMemberRemoved {

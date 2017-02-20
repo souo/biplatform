@@ -15,5 +15,7 @@ object LocalMain extends App with HttpService {
 
   val cubeNode = system.actorOf(CubeNode.props, CubeNode.name)
 
-  startService(cubeNode, users)
+  val dsNode = system.actorOf(DataSourceNode.props, DataSourceNode.name)
+
+  startService(cubeNode, users, dsNode)
 }

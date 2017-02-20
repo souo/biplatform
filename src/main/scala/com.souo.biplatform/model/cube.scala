@@ -16,7 +16,10 @@ case class Dimension(
 
 case class Measure(dimension: Dimension, aggregator: String = "SUM")
 
-case class CubeSchema(tableName: String, dimensions: List[Dimension], measures: List[Measure])
+case class CubeSchema(tableId: String,
+                      dimensions: List[Dimension],
+                      measures: List[Measure],
+                      dataSourceId:UUID)
 
 case class CubeMeta(cubeId: UUID, cubeName: String, createBy: String,
                     modifyBy: Option[String] = None, latModifyTime: DateTime, visible: Boolean = true)
