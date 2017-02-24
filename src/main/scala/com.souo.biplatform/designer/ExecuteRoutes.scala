@@ -18,6 +18,8 @@ import io.circe.generic.auto._
 
 import scala.concurrent.duration._
 
+
+
 /**
  * Created by souo on 2017/1/20
  */
