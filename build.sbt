@@ -72,7 +72,7 @@ compile in Compile := {
 assemblyJarName in assembly := "biplatform.jar"
 
 //skip test
-test in assembly := false
+test in assembly := {}
 
 mappings in Universal := {
   // universalMappings: Seq[(File,String)]
@@ -100,8 +100,28 @@ scriptClasspath := Seq((assemblyJarName in assembly).value)
 mappings in (Compile, packageDoc) := Seq()
 
 
-addCommandAlias("zip", "universal:package-bin")
-addCommandAlias("tgz", "universal:package-zip-tarball")
+lazy val zip = taskKey[Unit]("Packaging zip  file and move it to deploy ")
+
+zip := {
+  val from = (packageBin in Universal).value
+  val to = baseDirectory.value / "deploy" / from.getName
+  if (to.delete()){
+    println(s"delete old file ${to.getName}")
+  }
+  IO.move(from, to)
+}
+
+
+lazy val tgz = taskKey[Unit]("Packaging  tgz  file and move it  deploy ")
+
+tgz := {
+  val from = (packageZipTarball in Universal).value
+  val to = baseDirectory.value / "deploy" / from.getName
+  if (to.delete()){
+    println(s"delete old file ${to.getName}")
+  }
+  IO.move(from, to)
+}
 
 
 
