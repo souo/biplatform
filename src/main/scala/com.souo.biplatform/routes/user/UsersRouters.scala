@@ -16,7 +16,7 @@ import io.swagger.annotations._
 /**
  * @author souo
  */
-@Api(tags = Array("user"), produces = "application/json")
+@Api(tags     = Array("user"), produces = "application/json")
 @Path("/api/users")
 trait UsersRouters extends RoutesSupport with StrictLogging with SessionSupport {
 
@@ -32,31 +32,22 @@ trait UsersRouters extends RoutesSupport with StrictLogging with SessionSupport 
     httpMethod      = "POST",
     consumes        = "application/json",
     responseHeaders = Array(
-      new ResponseHeader(name = "Set-Cookie", description = "set an cookie")
-    )
-  )
+      new ResponseHeader(name        = "Set-Cookie", description = "set an cookie")))
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         value     = "",
         paramType = "body",
         dataType  = "com.souo.biplatform.model.User",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code    = 200,
-        message = "成功"
-      ),
+        message = "成功"),
       new ApiResponse(
         code    = 500,
-        message = "失败"
-      )
-    )
-  )
+        message = "失败")))
   def login = path("login") {
     post {
       entity(as[User]) { user ⇒
@@ -78,7 +69,7 @@ trait UsersRouters extends RoutesSupport with StrictLogging with SessionSupport 
   }
 
   @Path("/logout")
-  @ApiOperation(value = "登出", httpMethod = "GET")
+  @ApiOperation(value      = "登出", httpMethod = "GET")
   def logout = path("logout") {
     get {
       userFromSession { user ⇒

@@ -12,5 +12,4 @@ case class BiUser(
   loginPassword: Option[String],
   roleId:        Option[Int],
   appId:         Option[Int],
-  status:        Boolean
-)
+  status:        Boolean)

@@ -134,8 +134,7 @@ class DashBoardManager extends Node {
   private def create(id: UUID): ActorRef = {
     context.actorOf(
       DashBoardNode.props,
-      DashBoardNode.name(id)
-    )
+      DashBoardNode.name(id))
   }
 
   def allSoulsReaped(): Unit = {

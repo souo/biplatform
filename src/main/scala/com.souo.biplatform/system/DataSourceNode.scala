@@ -29,8 +29,7 @@ class DataSourceNode extends Node {
 
   def updateAndReply(evt: Event)(replyTo: ActorRef) = {
     val res = Either.catchNonFatal(
-      updateItems(evt)
-    )
+      updateItems(evt))
     replyTo ! res
   }
 
@@ -55,7 +54,7 @@ class DataSourceNode extends Node {
       checkNameAndConnection match {
         case Right(_) ⇒
           val dsId = UUID.randomUUID()
-          val item = Item(dsId = dsId, name = name, createBy = user, lastModifyTime = DateTime.now(), dataSource = ds)
+          val item = Item(dsId           = dsId, name = name, createBy = user, lastModifyTime = DateTime.now(), dataSource = ds)
           val replyTo = sender()
           persistAsync(Added(item)) { evt ⇒
             updateAndReply(evt)(replyTo)
@@ -78,8 +77,7 @@ class DataSourceNode extends Node {
               val item = old.copy(
                 name           = name,
                 modifyBy       = Some(user),
-                lastModifyTime = DateTime.now()
-              )
+                lastModifyTime = DateTime.now())
               val replyTo = sender()
               persistAsync(Updated(id, item)) { evt ⇒
                 updateAndReply(evt)(replyTo)
@@ -117,8 +115,7 @@ class DataSourceNode extends Node {
     case ListAllTables(id) ⇒
       val res = Either.fromOption[Throwable, Item](
         items.items.find(_.dsId == id),
-        new RuntimeException(s"no such datasource $id")
-      ).flatMap {
+        new RuntimeException(s"no such datasource $id")).flatMap {
           _.dataSource.listAllTables()
         }
       sender() ! res
@@ -126,8 +123,7 @@ class DataSourceNode extends Node {
     case ListAllColumns(id, table) ⇒
       val res = Either.fromOption[Throwable, Item](
         items.items.find(_.dsId == id),
-        new RuntimeException(s"no such datasource $id")
-      ).flatMap {
+        new RuntimeException(s"no such datasource $id")).flatMap {
           _.dataSource.listAllColumns(table)
         }
       sender() ! res
@@ -135,8 +131,7 @@ class DataSourceNode extends Node {
     case Get(id) ⇒
       val res = Either.fromOption(
         items.items.find(_.dsId == id),
-        new RuntimeException(s"no such datasource $id")
-      )
+        new RuntimeException(s"no such datasource $id"))
       sender() ! res
   }
 }
@@ -155,8 +150,7 @@ object DataSourceNode {
     @(ApiModelProperty @field) createBy:       String,
     @(ApiModelProperty @field) modifyBy:       Option[String] = None,
     @(ApiModelProperty @field) lastModifyTime: DateTime,
-    @ApiModelProperty(hidden = true) dataSource:DataSource
-  )
+    @ApiModelProperty(hidden = true) dataSource:DataSource)
 
   case class Items(items: List[Item] = List.empty) {
     def add(item: Item) = {
@@ -185,8 +179,7 @@ object DataSourceNode {
       Either.cond(
         !items.exists(_.name == name),
         (),
-        InValidName("名称不能重复")
-      )
+        InValidName("名称不能重复"))
     }
   }
 

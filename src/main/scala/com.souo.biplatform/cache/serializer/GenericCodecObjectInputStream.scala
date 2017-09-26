@@ -11,7 +11,7 @@ import scala.util.control.NonFatal
  * @author souo
  */
 private[serializer] class GenericCodecObjectInputStream(classTag: ClassTag[_], in: InputStream)
-    extends ObjectInputStream(in) {
+  extends ObjectInputStream(in) {
 
   private def classTagClassLoader = classTag.runtimeClass.getClassLoader
 

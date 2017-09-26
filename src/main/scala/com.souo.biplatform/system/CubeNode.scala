@@ -86,8 +86,7 @@ class CubeNode extends Node {
               val newMeta = cube.meta.copy(
                 cubeName      = name,
                 modifyBy      = Some(user),
-                latModifyTime = DateTime.now()
-              )
+                latModifyTime = DateTime.now())
               val newCube = Cube(newMeta, schema)
               val replyTo = sender()
               persistAsync(CubeUpdated(id, newCube)) { evt ⇒
@@ -142,8 +141,7 @@ class CubeNode extends Node {
         cubes.get(id).map{ cube ⇒
           CubeNameAndSchema(cube.meta.cubeName, cube.schema)
         },
-        new RuntimeException(s"no such cube $id")
-      )
+        new RuntimeException(s"no such cube $id"))
       sender() ! res
 
     case SaveSnapshotSuccess(metadata) ⇒
@@ -172,8 +170,7 @@ object CubeNode {
     cubeId: UUID,
     name:   String,
     login:  String,
-    schema: CubeSchema
-  ) extends Command
+    schema: CubeSchema) extends Command
 
   case class RemoveCube(cubeId: UUID, login: String) extends Command
 

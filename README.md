@@ -17,7 +17,7 @@ Build and Run
 
 * 运行`sbt clean zip` 或者 `sbt clean tgz` 在 `target/universal`目录下会生成 相应的zip或tgz包。
 
-* 复制到服务器上 解压， 在安装目录下 运行 `./bin/run.sh` 启动服务
+* 复制到服务器上 解压， 在安装目录下 运行 `./sbin/service.sh` 启动服务
 
 
 

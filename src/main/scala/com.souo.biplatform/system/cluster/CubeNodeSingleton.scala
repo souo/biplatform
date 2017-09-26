@@ -16,17 +16,13 @@ trait CubeNodeSingleton {
       PoisonPill,
       ClusterSingletonManagerSettings(system)
         .withRole(Roles.designer)
-        .withSingletonName(CubeNode.name)
-    )
-  )
+        .withSingletonName(CubeNode.name)))
 
   val cubeNode = system.actorOf(
     ClusterSingletonProxy.props(
       singletonManager.path.child(CubeNode.name)
-      .toStringWithoutAddress,
+        .toStringWithoutAddress,
       ClusterSingletonProxySettings(system)
         .withRole(Roles.designer)
-        .withSingletonName("cube-proxy")
-    )
-  )
+        .withSingletonName("cube-proxy")))
 }

@@ -18,7 +18,7 @@ import io.swagger.annotations._
 /**
  * @author souo
  */
-@Api(tags = Array("reports"), produces = "application/json")
+@Api(tags     = Array("reports"), produces = "application/json")
 @Path("/api/designer/reports")
 trait ReportsRoutes extends RoutesSupport with StrictLogging with SessionSupport with DefaultTimeOut {
 
@@ -37,27 +37,20 @@ trait ReportsRoutes extends RoutesSupport with StrictLogging with SessionSupport
   @ApiOperation(
     value      = "获取一个report",
     notes      = "获取一张报表最后一次保存的状态",
-    httpMethod = "GET"
-  )
+    httpMethod = "GET")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         name      = "reportId",
         paramType = "path",
         dataType  = "java.util.UUID",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code     = 200,
         message  = "成功",
-        response = classOf[ReportQuery]
-      )
-    )
-  )
+        response = classOf[ReportQuery])))
   def showReport: Route = {
     get {
       path(Segment){ id ⇒
@@ -78,26 +71,19 @@ trait ReportsRoutes extends RoutesSupport with StrictLogging with SessionSupport
   @ApiOperation(
     value      = "发布一张report",
     notes      = "发布一张报表要求，报表为可发布状态。即报表必须已编辑，而且至少包含一组维度和指标",
-    httpMethod = "GET"
-  )
+    httpMethod = "GET")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         name      = "reportId",
         paramType = "path",
         dataType  = "java.util.UUID",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code    = 200,
-        message = "成功"
-      )
-    )
-  )
+        message = "成功")))
   def publishReport: Route = {
     get {
       path("publish" / Segment){ id ⇒
@@ -119,31 +105,23 @@ trait ReportsRoutes extends RoutesSupport with StrictLogging with SessionSupport
   @ApiOperation(
     value      = "保存report",
     notes      = "保存页面的最新发布状态",
-    httpMethod = "POST"
-  )
+    httpMethod = "POST")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         name      = "reportId",
         paramType = "path",
         dataType  = "java.util.UUID",
-        required  = true
-      ),
+        required  = true),
       new ApiImplicitParam(
         paramType = "body",
         dataType  = "com.souo.biplatform.model.ReportQuery",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code    = 200,
-        message = "成功"
-      )
-    )
-  )
+        message = "成功")))
   def saveReportQuery: Route = {
     post {
       path(Segment){ id ⇒
@@ -167,26 +145,19 @@ trait ReportsRoutes extends RoutesSupport with StrictLogging with SessionSupport
   @ApiOperation(
     value      = "删除report状态",
     notes      = "删除以保存的所有状态",
-    httpMethod = "DELETE"
-  )
+    httpMethod = "DELETE")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         name      = "reportId",
         paramType = "path",
         dataType  = "java.util.UUID",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code    = 200,
-        message = "成功"
-      )
-    )
-  )
+        message = "成功")))
   def cleanReport: Route = {
     (delete & path(JavaUUID / "queryModel")) { id ⇒
       userFromSession { user ⇒
@@ -205,34 +176,26 @@ trait ReportsRoutes extends RoutesSupport with StrictLogging with SessionSupport
   @ApiOperation(
     value      = "获取某个维度所有值",
     notes      = "需先定义维度和指标",
-    httpMethod = "GET"
-  )
+    httpMethod = "GET")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         name      = "reportId",
         paramType = "path",
         dataType  = "java.util.UUID",
-        required  = true
-      ),
+        required  = true),
       new ApiImplicitParam(
         name      = "dimName",
         paramType = "path",
         dataType  = "string",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code              = 200,
         message           = "成功",
         response          = classOf[String],
-        responseContainer = "List"
-      )
-    )
-  )
+        responseContainer = "List")))
   def getDimValues: Route = {
     (get & path(JavaUUID / "dim" / Segment / "values")) { (id, dimName) ⇒
       userFromSession { user ⇒

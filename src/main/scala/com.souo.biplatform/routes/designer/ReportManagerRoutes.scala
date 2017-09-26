@@ -17,7 +17,7 @@ import io.swagger.annotations._
 /**
  * @author souo
  */
-@Api(tags = Array("reports-manager"), produces = "application/json")
+@Api(tags     = Array("reports-manager"), produces = "application/json")
 @Path("/api/designer/reports")
 trait ReportManagerRoutes extends RoutesSupport with StrictLogging with SessionSupport with DefaultTimeOut {
 
@@ -34,8 +34,7 @@ trait ReportManagerRoutes extends RoutesSupport with StrictLogging with SessionS
   @ApiOperation(
     value      = "获取reports列表",
     notes      = "通过发布状态、报表名分页参数筛选指定的reports列表",
-    httpMethod = "GET"
-  )
+    httpMethod = "GET")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
@@ -44,37 +43,28 @@ trait ReportManagerRoutes extends RoutesSupport with StrictLogging with SessionS
         paramType    = "query",
         dataType     = "boolean",
         required     = false,
-        defaultValue = "false"
-      ),
+        defaultValue = "false"),
       new ApiImplicitParam(
         name      = "query",
         paramType = "query",
         dataType  = "string",
-        required  = false
-      ),
+        required  = false),
       new ApiImplicitParam(
         name      = "pageNo",
         paramType = "query",
         dataType  = "int",
-        required  = false
-      ),
+        required  = false),
       new ApiImplicitParam(
         name      = "pageSize",
         paramType = "query",
         dataType  = "int",
-        required  = false
-      )
-    )
-  )
+        required  = false)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code     = 200,
         message  = "成功",
-        response = classOf[ReportManager.PageResult]
-      )
-    )
-  )
+        response = classOf[ReportManager.PageResult])))
   def listAllReport: Route = (get & pathEnd) {
     userFromSession { user ⇒
       parameter("published" ? false) { published ⇒
@@ -100,25 +90,18 @@ trait ReportManagerRoutes extends RoutesSupport with StrictLogging with SessionS
   @Path("")
   @ApiOperation(
     value      = "创建一个新的report",
-    httpMethod = "POST"
-  )
+    httpMethod = "POST")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         paramType = "body",
         dataType  = "com.souo.biplatform.routes.designer.RequestParams$CreateReport",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code    = 200,
-        message = "成功"
-      )
-    )
-  )
+        message = "成功")))
   def createReport: Route = {
     post {
       pathEnd {
@@ -141,31 +124,23 @@ trait ReportManagerRoutes extends RoutesSupport with StrictLogging with SessionS
   @ApiOperation(
     value      = "更新一个report",
     notes      = "对报表进行重命名操作",
-    httpMethod = "PUT"
-  )
+    httpMethod = "PUT")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         name      = "reportId",
         paramType = "path",
         dataType  = "java.util.UUID",
-        required  = true
-      ),
+        required  = true),
       new ApiImplicitParam(
         paramType = "body",
         dataType  = "com.souo.biplatform.routes.designer.RequestParams$UpdateReport",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code    = 200,
-        message = "成功"
-      )
-    )
-  )
+        message = "成功")))
   def updateReport: Route = {
     (put & pathEnd) {
       userFromSession { user ⇒
@@ -185,26 +160,19 @@ trait ReportManagerRoutes extends RoutesSupport with StrictLogging with SessionS
   @Path("/{reportId}")
   @ApiOperation(
     value      = "删除一个report",
-    httpMethod = "DELETE"
-  )
+    httpMethod = "DELETE")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         name      = "reportId",
         paramType = "path",
         dataType  = "java.util.UUID",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code    = 200,
-        message = "成功"
-      )
-    )
-  )
+        message = "成功")))
   def deleteReport: Route = {
     (delete & path(JavaUUID)) { id ⇒
       userFromSession { user ⇒

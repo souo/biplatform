@@ -13,7 +13,7 @@ class ClusterListen extends Actor with ActorLogging {
   // subscribe to cluster changes, re-subscribe when restart
   override def preStart(): Unit = {
     cluster.subscribe(self, initialStateMode = InitialStateAsEvents,
-      classOf[ClusterDomainEvent])
+                      classOf[ClusterDomainEvent])
   }
 
   override def postStop(): Unit = {

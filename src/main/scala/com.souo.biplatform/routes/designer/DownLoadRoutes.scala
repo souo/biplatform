@@ -38,9 +38,7 @@ trait DownLoadRoutes extends CirceSupport with SessionSupport {
     Array(
       0xEF,
       0xBB,
-      0xBF
-    ).map(_.toByte)
-  )
+      0xBF).map(_.toByte))
 
   val csvPrinter = new CSVPrinter()
 
@@ -63,34 +61,26 @@ trait DownLoadRoutes extends CirceSupport with SessionSupport {
     Flow[ByteString].intersperse(
       BOM,
       ByteString("\n"),
-      ByteString.empty
-    )
+      ByteString.empty)
   }
 
   @Path("/download/{reportId}")
   @ApiOperation(
     value      = "下载一张报表",
     produces   = "text/csv(UTF-8)",
-    httpMethod = "GET"
-  )
+    httpMethod = "GET")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         name      = "reportId",
         paramType = "path",
         dataType  = "java.util.UUID",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code    = 200,
-        message = "成功"
-      )
-    )
-  )
+        message = "成功")))
   def downLoadRoutes = (get & path("reports" / "download" / Segment)) { id ⇒
     userFromSession { user ⇒
       val reportId = UUID.fromString(id)

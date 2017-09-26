@@ -14,8 +14,7 @@ object RequestParams {
     tableName:    String,
     dimensions:   List[Dimension],
     measures:     List[Dimension],
-    dataSourceId: UUID
-  )
+    dataSourceId: UUID)
 
   implicit def schemaToCubeSchema(schema: Schema): CubeSchema = {
     CubeSchema(schema.tableName, schema.dimensions, schema.measures.map { dim ⇒

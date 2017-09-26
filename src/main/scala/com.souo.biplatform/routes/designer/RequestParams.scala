@@ -17,7 +17,6 @@ object RequestParams {
   case class AddWidget(
     reportId:          UUID,
     visualizationType: String,
-    size:              String
-  )
+    size:              String)
 
 }

@@ -82,8 +82,7 @@ object DashBoardNode {
     dashBoardId:       UUID,
     reportId:          UUID,
     visualizationType: String,
-    size:              String
-  ) extends Command
+    size:              String) extends Command
 
   case class RemoveWidget(login: String, dashBoardId: UUID, id: UUID) extends Command
   case class ListAll(login: String, dashBoardId: UUID)

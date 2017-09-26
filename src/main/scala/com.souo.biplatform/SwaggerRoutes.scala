@@ -25,10 +25,7 @@ trait SwaggerRoutes extends SwaggerSupport {
       Contact(
         name  = "souo",
         url   = "",
-        email = ""
-      )
-    )
-  )
+        email = "")))
   override val apiTypes: Seq[Type] = {
     Seq(
       typeOf[UsersRouters],
@@ -37,8 +34,7 @@ trait SwaggerRoutes extends SwaggerSupport {
       typeOf[ReportManagerRoutes],
       typeOf[ReportsRoutes],
       typeOf[DownLoadRoutes],
-      typeOf[ExecuteRoutes]
-    )
+      typeOf[ExecuteRoutes])
   }
 
   lazy val swagger: Route = {

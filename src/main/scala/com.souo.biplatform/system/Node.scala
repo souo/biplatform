@@ -19,8 +19,7 @@ abstract class Node extends PersistentActor with ActorLogging {
 
   protected def durationSettings(path: String): Int = {
     Either.catchNonFatal(
-      context.system.settings.config.getDuration(path).toMillis.toInt
-    ).getOrElse(0)
+      context.system.settings.config.getDuration(path).toMillis.toInt).getOrElse(0)
   }
 
   /**

@@ -9,5 +9,4 @@ import com.souo.biplatform.queryrouter.DataRow
 case class JdbcSettings(
   source:  JdbcSource,
   sql:     String,
-  metaRow: DataRow
-)
+  metaRow: DataRow)

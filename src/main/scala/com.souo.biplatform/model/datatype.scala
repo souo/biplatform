@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModelProperty
  * @author souo
  */
 object DataType extends Enumeration {
-  @ApiModelProperty(dataType = "string", allowableValues = "STRING,DATE,NUMERIC")
+  @ApiModelProperty(dataType        = "string", allowableValues = "STRING,DATE,NUMERIC")
   type DataType = Value
   val STRING, DATE, NUMERIC = Value
 }

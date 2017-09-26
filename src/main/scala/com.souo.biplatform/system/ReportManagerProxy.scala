@@ -9,8 +9,7 @@ class ReportManagerProxy(login: String, queryRouteNode: ActorRef) extends Actor 
   def create(): ActorRef = {
     context.actorOf(
       ReportManager.props(queryRouteNode),
-      ReportManager.name(login)
-    )
+      ReportManager.name(login))
   }
   val reportManager = create()
   context.watch(reportManager)

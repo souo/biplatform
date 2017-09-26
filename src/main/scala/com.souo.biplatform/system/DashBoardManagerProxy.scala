@@ -10,8 +10,7 @@ class DashBoardManagerProxy(login: String) extends Actor with ActorLogging {
   def create(): ActorRef = {
     context.actorOf(
       DashBoardManager.props(),
-      DashBoardManager.name(login)
-    )
+      DashBoardManager.name(login))
   }
 
   override def receive: Receive = {

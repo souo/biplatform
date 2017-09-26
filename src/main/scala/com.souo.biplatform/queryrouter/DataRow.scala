@@ -8,8 +8,7 @@ import com.souo.biplatform.queryrouter.DataCellType.DataCellType
 case class DataCell(
   value:      String,
   `type`:     DataCellType,
-  properties: Map[String, String]
-)
+  properties: Map[String, String])
 
 case class DataRow(cells: List[DataCell])
 

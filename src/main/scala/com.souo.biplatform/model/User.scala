@@ -10,11 +10,9 @@ import scala.annotation.meta.field
 
 @ApiModel
 case class User(
-  @(ApiModelProperty @field)(value = "登录用户名") login:String
-)
+  @(ApiModelProperty @field)(value = "登录用户名") login:String)
 
 case class UserWithRole(
   login:   String,
-  isAdmin: Boolean
-)
+  isAdmin: Boolean)
 

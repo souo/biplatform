@@ -52,6 +52,5 @@ case class UserRule(
   login:    String,
   rule_id:  Int,
   state:    Int,
-  createOn: DateTime
-)
+  createOn: DateTime)
 

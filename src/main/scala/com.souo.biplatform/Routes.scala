@@ -11,10 +11,10 @@ import com.souo.biplatform.routes.user.UsersRouters
  * @author souo
  */
 trait Routes extends RoutesRequestWrapper
-    with UsersRouters
-    with CubeRoutes
-    with DataSourceRoutes
-    with DesignerRoutes {
+  with UsersRouters
+  with CubeRoutes
+  with DataSourceRoutes
+  with DesignerRoutes {
 
   lazy val api = requestWrapper {
     pathPrefix("api") {

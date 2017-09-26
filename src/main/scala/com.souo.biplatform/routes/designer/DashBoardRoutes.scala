@@ -82,8 +82,7 @@ trait DashBoardRoutes extends RoutesSupport with StrictLogging with SessionSuppo
             UUID.fromString(id),
             add.reportId,
             add.visualizationType,
-            add.size
-          )
+            add.size)
           onSuccess(users ? cmd){
             case widgets: Array[Widget] ⇒
               complete(ok(widgets))
@@ -96,8 +95,7 @@ trait DashBoardRoutes extends RoutesSupport with StrictLogging with SessionSuppo
           val cmd = DashBoardNode.RemoveWidget(
             user.login,
             UUID.fromString(did),
-            UUID.fromString(wid)
-          )
+            UUID.fromString(wid))
           onSuccess(users ? cmd){
             case widgets: Array[Widget] ⇒
               complete(ok(widgets))

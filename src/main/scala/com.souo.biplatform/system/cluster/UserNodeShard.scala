@@ -17,8 +17,7 @@ trait UserNodeShard {
     entityProps     = UserNode.props(queryRouteNode),
     settings        = ClusterShardingSettings(system).withRole(Roles.designer),
     extractEntityId = ShardUsers.extractEntityId,
-    extractShardId  = ShardUsers.extractShardId
-  )
+    extractShardId  = ShardUsers.extractShardId)
 
   def shardUser: ActorRef = {
     ClusterSharding(system).shardRegion(ShardUsers.shardName)

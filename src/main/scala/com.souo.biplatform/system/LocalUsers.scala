@@ -34,8 +34,7 @@ trait UserLookUp {
   def createUserNode(login: String, queryRouteNode: ActorRef): ActorRef = {
     context.actorOf(
       UserNode.props(queryRouteNode),
-      UserNode.name(login)
-    )
+      UserNode.name(login))
   }
 
 }

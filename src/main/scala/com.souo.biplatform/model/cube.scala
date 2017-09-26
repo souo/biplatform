@@ -12,8 +12,7 @@ case class Dimension(
   name:        String,
   caption:     String,
   description: Option[String],
-  dataType:    DataType
-)
+  dataType:    DataType)
 
 case class Measure(dimension: Dimension, aggregator: String = "SUM")
 
@@ -21,8 +20,7 @@ case class CubeSchema(
   tableName:    String,
   dimensions:   List[Dimension],
   measures:     List[Measure],
-  dataSourceId: UUID
-)
+  dataSourceId: UUID)
 
 case class CubeMeta(cubeId: UUID, cubeName: String, createBy: String,
                     modifyBy: Option[String] = None, latModifyTime: DateTime, visible: Boolean = true)
@@ -43,8 +41,7 @@ case class Cubes(list: List[Cube]) {
     Either.cond(
       !list.exists(_.meta.cubeName == name),
       (),
-      new RuntimeException(s"已经存在名为${name}的Cube")
-    )
+      new RuntimeException(s"已经存在名为${name}的Cube"))
   }
 
   def removeCube(cubeId: UUID) = {

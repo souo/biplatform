@@ -22,7 +22,7 @@ object JDBCPublish {
 }
 
 class JDBCPublish(settings: JdbcSettings)
-    extends akka.stream.actor.ActorPublisher[DataRow] with ActorLogging {
+  extends akka.stream.actor.ActorPublisher[DataRow] with ActorLogging {
 
   val dbInstance = settings.source
 
@@ -79,8 +79,7 @@ class JDBCPublish(settings: JdbcSettings)
               case ROW_HEADER_HEADER ⇒
                 (
                   ROW_HEADER,
-                  Map("dimension" → cell.value)
-                )
+                  Map("dimension" → cell.value))
               case COLUMN_HEADER ⇒
                 colIndex += 1
                 (DATA_CELL, Map("position" → s"$rowIndex:$colIndex"))
@@ -88,8 +87,7 @@ class JDBCPublish(settings: JdbcSettings)
             DataCell(
               rs.getString(index + 1),
               tpe,
-              props
-            )
+              props)
         })
         onNext(dataRow)
         rowIndex += 1

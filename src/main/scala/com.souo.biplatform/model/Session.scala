@@ -14,6 +14,5 @@ object Session {
     (t: Session) ⇒ Map("login" → t.user.login, "isAdmin" → t.user.isAdmin.toString),
     (m) ⇒ Try {
       Session(UserWithRole(m("login"), m("isAdmin").toBoolean))
-    }
-  )
+    })
 }

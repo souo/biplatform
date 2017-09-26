@@ -1,4 +1,3 @@
-import com.typesafe.sbt.SbtNativePackager.autoImport.NativePackagerHelper._
 import com.typesafe.sbt.SbtScalariform.ScalariformKeys
 
 import scalariform.formatter.preferences._
@@ -15,9 +14,8 @@ lazy val universalSettings = commonSettings ++ testSettings
 
 lazy val compileScalastyle = taskKey[Unit]("compileScalastyle")
 
-lazy val commonSettings = SbtScalariform.scalariformSettings ++ Seq(
+lazy val commonSettings = scalariformSettings(autoformat = true) ++ Seq(
   ScalariformKeys.preferences := ScalariformKeys.preferences.value
-    .setPreference(DoubleIndentClassDeclaration, true)
     .setPreference(PreserveSpaceBeforeArguments, true)
     .setPreference(CompactControlReadability, true)
     .setPreference(AlignArguments, true)
@@ -86,10 +84,6 @@ mappings in Universal := {
   filtered :+ (fatJar -> ("lib/" + fatJar.getName))
 }
 
-//add our script
-mappings in Universal ++= {
-  contentOf("script").map { s => s._1 -> ("bin/" + s._2) }
-}
 
 scriptClasspath := Seq((assemblyJarName in assembly).value)
 

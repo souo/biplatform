@@ -9,8 +9,8 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.Future
 
 class GuavaCache[InMemoryRepr](underlying: GCache[String, Object])
-    extends Cache[InMemoryRepr]
-    with LoggingSupport {
+  extends Cache[InMemoryRepr]
+  with LoggingSupport {
 
   override def get[V](key: String)(implicit codec: Codec[V, InMemoryRepr]) = {
     val baseValue = underlying.getIfPresent(key)

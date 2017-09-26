@@ -11,33 +11,29 @@ import cats.implicits._
  */
 
 case class ReportMeta(
-    id:              UUID,
-    name:            String,
-    createBy:        String,
-    createTime:      DateTime,
-    lastEditTime:    Option[DateTime] = None,
-    lastPublishTime: Option[DateTime] = None,
-    edited:          Boolean          = false,
-    published:       Boolean          = false
-) extends Serializable {
+  id:              UUID,
+  name:            String,
+  createBy:        String,
+  createTime:      DateTime,
+  lastEditTime:    Option[DateTime] = None,
+  lastPublishTime: Option[DateTime] = None,
+  edited:          Boolean          = false,
+  published:       Boolean          = false) extends Serializable {
 
   def edit: ReportMeta = copy(
     lastEditTime = Some(DateTime.now()),
-    edited       = true
-  )
+    edited       = true)
 
   def publish: ReportMeta = copy(
     lastPublishTime = Some(DateTime.now()),
-    published       = true
-  )
+    published       = true)
 
   def reName(name: String): ReportMeta = copy(name = name)
 
   def clean: ReportMeta = copy(
     lastEditTime = Some(DateTime.now()),
     edited       = true,
-    published    = false
-  )
+    published    = false)
 
 }
 
@@ -47,17 +43,15 @@ object ReportMeta {
       id         = UUID.randomUUID(),
       name       = name,
       createBy   = createBy,
-      createTime = DateTime.now()
-    )
+      createTime = DateTime.now())
   }
 }
 
 case class QueryModel(
-    tableName:  String,
-    dimensions: List[Dimension],
-    measures:   List[Measure],
-    filters:    Option[List[Filter]] = None
-) {
+  tableName:  String,
+  dimensions: List[Dimension],
+  measures:   List[Measure],
+  filters:    Option[List[Filter]] = None) {
 
   def checkTableName = {
     if (tableName.isEmpty) {
@@ -85,6 +79,5 @@ case class QueryModel(
 case class ReportQuery(
   queryModel: QueryModel,
   cubeId:     UUID,
-  properties: Map[String, String]
-)
+  properties: Map[String, String])
 

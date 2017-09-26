@@ -71,15 +71,13 @@ class ReportManager(queryRouteNode: ActorRef) extends Node {
     Either.cond(
       !db.exists(_.name == name),
       (),
-      new RuntimeException("报表名重复")
-    )
+      new RuntimeException("报表名重复"))
   }
 
   private def checkReportId(id: UUID): Result[ReportMeta] = {
     Either.fromOption(
       db.find(_.id == id),
-      new RuntimeException(s"No Such report reportId:$id")
-    )
+      new RuntimeException(s"No Such report reportId:$id"))
   }
 
   override def receiveCommand: Receive = {
@@ -227,8 +225,7 @@ class ReportManager(queryRouteNode: ActorRef) extends Node {
   private def create(id: UUID): ActorRef = {
     context.actorOf(
       ReportNode.props(queryRouteNode, self),
-      ReportNode.name(id)
-    )
+      ReportNode.name(id))
   }
 
   def allSoulsReaped(): Unit = {
@@ -257,8 +254,7 @@ object ReportManager {
     login:     String,
     published: Boolean        = false,
     page:      Option[Page]   = None,
-    query:     Option[String] = None
-  ) extends Command
+    query:     Option[String] = None) extends Command
 
   //event
   sealed trait Event

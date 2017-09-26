@@ -10,11 +10,10 @@ import slick.jdbc.JdbcBackend._
  * @author souo
  */
 case class SqlDatabase(
-    db:               slick.jdbc.JdbcBackend.Database,
-    driver:           JdbcProfile,
-    jodaSupport:      GenericJodaSupport,
-    connectionString: JdbcConnectionString
-) extends DBComponent {
+  db:               slick.jdbc.JdbcBackend.Database,
+  driver:           JdbcProfile,
+  jodaSupport:      GenericJodaSupport,
+  connectionString: JdbcConnectionString) extends DBComponent {
 
   def updateSchema() {
     val flyway = new Flyway()
@@ -41,7 +40,7 @@ object SqlDatabase extends StrictLogging {
   private def createEmbedded(config: DatabaseConfig): SqlDatabase = {
     val db = Database.forConfig("designer.db.h2", config.rootConfig)
     SqlDatabase(db, slick.driver.H2Driver, H2JodaSupport,
-      JdbcConnectionString(embeddedConnectionStringFromConfig(config)))
+                JdbcConnectionString(embeddedConnectionStringFromConfig(config)))
   }
 
   def embeddedConnectionStringFromConfig(config: DatabaseConfig): String = {

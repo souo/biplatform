@@ -20,7 +20,6 @@ trait DesignerActorSystem {
   implicit val system: ActorSystem = ActorSystem(sysName, ConfigFactory.parseString(
     s"""
       |akka.cluster.roles=[${Roles.designer}]
-    """.stripMargin
-  ).withFallback(config))
+    """.stripMargin).withFallback(config))
 
 }

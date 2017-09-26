@@ -33,9 +33,7 @@ trait ExecuteRoutes extends CirceSupport with SessionSupport {
     EntityStreamingSupport.json().withFramingRenderer(
       Flow[ByteString].intersperse(
         ByteString("{\"status\": 200, \"message\": \"OK\", \"data\":["),
-        ByteString(","), ByteString("]}")
-      )
-    )
+        ByteString(","), ByteString("]}")))
   }
   val users: ActorRef
 
@@ -43,26 +41,19 @@ trait ExecuteRoutes extends CirceSupport with SessionSupport {
   @ApiOperation(
     value      = "执行一张报表",
     produces   = "application/json",
-    httpMethod = "GET"
-  )
+    httpMethod = "GET")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         name      = "reportId",
         paramType = "path",
         dataType  = "java.util.UUID",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code    = 200,
-        message = "成功"
-      )
-    )
-  )
+        message = "成功")))
   def executeRoutes = (get & path("reports" / "execute" / Segment)) { id ⇒
     userFromSession { user ⇒
       val reportId = UUID.fromString(id)

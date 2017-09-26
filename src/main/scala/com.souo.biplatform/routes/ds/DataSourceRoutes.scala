@@ -21,7 +21,7 @@ import io.swagger.annotations._
 /**
  * @author souo
  */
-@Api(tags = Array("DataSource"), produces = "application/json")
+@Api(tags     = Array("DataSource"), produces = "application/json")
 @Path("/api/datasource")
 trait DataSourceRoutes extends RoutesSupport with StrictLogging with SessionSupport with DefaultTimeOut {
 
@@ -34,8 +34,7 @@ trait DataSourceRoutes extends RoutesSupport with StrictLogging with SessionSupp
       "name",
       "createBy",
       "modifyBy",
-      "lastModifyTime"
-    ){ item ⇒
+      "lastModifyTime"){ item ⇒
         (item.dsId, item.name, item.createBy, item.modifyBy, item.lastModifyTime)
       }
   }
@@ -53,28 +52,21 @@ trait DataSourceRoutes extends RoutesSupport with StrictLogging with SessionSupp
   @Path("")
   @ApiOperation(
     value      = "获取数据源列表",
-    httpMethod = "GET"
-  )
+    httpMethod = "GET")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         name      = "query",
         paramType = "query",
         dataType  = "string",
-        required  = false
-      )
-    )
-  )
+        required  = false)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code              = 200,
         message           = "成功",
         response          = classOf[DataSourceNode.Item],
-        responseContainer = "List"
-      )
-    )
-  )
+        responseContainer = "List")))
   def listAllDS = { //获取定义的所有 datasource
     (get & pathEnd) {
       parameter("query" ?) { query ⇒
@@ -100,28 +92,21 @@ trait DataSourceRoutes extends RoutesSupport with StrictLogging with SessionSupp
   @Path("/{dsId}/tables")
   @ApiOperation(
     value      = "获取数据源下所有表",
-    httpMethod = "GET"
-  )
+    httpMethod = "GET")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         name      = "dsId",
         paramType = "path",
         dataType  = "java.util.UUID",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code              = 200,
         message           = "OK",
         response          = classOf[TableInfo],
-        responseContainer = "List"
-      )
-    )
-  )
+        responseContainer = "List")))
   def listAllTables = {
     (get & path(JavaUUID / "tables")) { dsId ⇒
       userFromSession { user ⇒
@@ -145,34 +130,26 @@ trait DataSourceRoutes extends RoutesSupport with StrictLogging with SessionSupp
   @Path("/{dsId}/tables/{tableId}/fields")
   @ApiOperation(
     value      = "获取数据源下某个表的所有字段",
-    httpMethod = "GET"
-  )
+    httpMethod = "GET")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         name      = "dsId",
         paramType = "path",
         dataType  = "java.util.UUID",
-        required  = true
-      ),
+        required  = true),
       new ApiImplicitParam(
         name      = "tableId",
         paramType = "path",
         dataType  = "string",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code              = 200,
         message           = "OK",
         response          = classOf[ColumnInfo],
-        responseContainer = "List"
-      )
-    )
-  )
+        responseContainer = "List")))
   def listAllColumns = {
     (get & path(JavaUUID / "tables" / Segment / "fields")) { (dsId, tid) ⇒
       userFromSession { user ⇒
@@ -197,26 +174,19 @@ trait DataSourceRoutes extends RoutesSupport with StrictLogging with SessionSupp
   @ApiOperation(
     value      = "创建一个jdbc数据源",
     httpMethod = "POST",
-    consumes   = "application/json"
-  )
+    consumes   = "application/json")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         value     = "参数",
         paramType = "body",
         dataType  = "com.souo.biplatform.routes.ds.RequestParams$JdbcConfig",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code    = 200,
-        message = "成功"
-      )
-    )
-  )
+        message = "成功")))
   def addDataSource = {
     (post & pathEnd) {
       userFromSession { user ⇒
@@ -232,14 +202,12 @@ trait DataSourceRoutes extends RoutesSupport with StrictLogging with SessionSupp
                 complete(Error(
                   status   = 5001,
                   message  = "invalid name",
-                  moreInfo = msg
-                ))
+                  moreInfo = msg))
               case Left(InValidConnectParam(msg)) ⇒
                 complete(Error(
                   status   = 5002,
                   message  = "invalid connection",
-                  moreInfo = msg
-                ))
+                  moreInfo = msg))
 
               case Left(t) ⇒
                 complete(error(t))
@@ -258,32 +226,24 @@ trait DataSourceRoutes extends RoutesSupport with StrictLogging with SessionSupp
   @ApiOperation(
     value      = "更新一个jdbc数据源",
     httpMethod = "PUT",
-    consumes   = "application/json"
-  )
+    consumes   = "application/json")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         name      = "dsId",
         paramType = "path",
         dataType  = "java.util.UUID",
-        required  = true
-      ),
+        required  = true),
       new ApiImplicitParam(
         value     = "参数",
         paramType = "body",
         dataType  = "com.souo.biplatform.routes.ds.RequestParams$JdbcConfig",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code    = 200,
-        message = "成功"
-      )
-    )
-  )
+        message = "成功")))
   def updateDs = {
     put{
       path(JavaUUID){ id ⇒
@@ -300,14 +260,12 @@ trait DataSourceRoutes extends RoutesSupport with StrictLogging with SessionSupp
                   complete(Error(
                     status   = 5001,
                     message  = "invalid name",
-                    moreInfo = msg
-                  ))
+                    moreInfo = msg))
                 case Left(InValidConnectParam(msg)) ⇒
                   complete(Error(
                     status   = 5002,
                     message  = "invalid connection",
-                    moreInfo = msg
-                  ))
+                    moreInfo = msg))
 
                 case Left(t) ⇒
                   complete(error(t))
@@ -326,27 +284,20 @@ trait DataSourceRoutes extends RoutesSupport with StrictLogging with SessionSupp
   @Path("/{dsId}")
   @ApiOperation(
     value      = "获取一个jdbc数据源的配置信息",
-    httpMethod = "GET"
-  )
+    httpMethod = "GET")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         name      = "dsId",
         paramType = "path",
         dataType  = "java.util.UUID",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code     = 200,
         message  = "成功",
-        response = classOf[Item]
-      )
-    )
-  )
+        response = classOf[Item])))
   def getDs = {
     get {
       path(JavaUUID) { id ⇒
@@ -367,9 +318,7 @@ trait DataSourceRoutes extends RoutesSupport with StrictLogging with SessionSupp
                         port = ds.port,
                         db   = ds.db,
                         user = ds.user,
-                        pwd  = ds.pwd
-                      ))
-                    )
+                        pwd  = ds.pwd)))
                   case _ ⇒
                     failWith(new RuntimeException("not support"))
                 }
@@ -387,26 +336,19 @@ trait DataSourceRoutes extends RoutesSupport with StrictLogging with SessionSupp
   @Path("/{dsId}")
   @ApiOperation(
     value      = "删除一个jdbc数据源",
-    httpMethod = "DELETE"
-  )
+    httpMethod = "DELETE")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         name      = "dsId",
         paramType = "path",
         dataType  = "java.util.UUID",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code    = 200,
-        message = "成功"
-      )
-    )
-  )
+        message = "成功")))
   def removeDs = {
     (delete & path(JavaUUID)) { id ⇒
       userFromSession { user ⇒

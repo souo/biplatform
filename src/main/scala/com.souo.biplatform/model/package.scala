@@ -20,8 +20,7 @@ package object model {
     new Semigroup[ValidatedNel[String, Boolean]] {
       override def combine(
         a: ValidatedNel[String, Boolean],
-        b: ValidatedNel[String, Boolean]
-      ): ValidatedNel[String, Boolean] = {
+        b: ValidatedNel[String, Boolean]): ValidatedNel[String, Boolean] = {
         (a, b) match {
           case (Valid(x), Valid(y))   ⇒ Valid(x && y)
           case (Invalid(x), Valid(y)) ⇒ Invalid(x)

@@ -18,7 +18,7 @@ trait RoutesRequestWrapper extends CirceSupport with StrictLogging {
   private val exceptionHandler = ExceptionHandler {
     case e: Exception ⇒
       logger.error(s"Exception during client request processing: ${e.getMessage}", e)
-      _.complete(StatusCodes.InternalServerError, Error(message = "Internal server error", moreInfo = e.getMessage))
+      _.complete(StatusCodes.InternalServerError, Error(message  = "Internal server error", moreInfo = e.getMessage))
   }
 
   private val rejectionHandler = RejectionHandler.newBuilder().handle {
@@ -27,8 +27,7 @@ trait RoutesRequestWrapper extends CirceSupport with StrictLogging {
     case MalformedRequestContentRejection(msg, t) ⇒
       complete(BadRequest, Error(
         message  = "The request content was malformed:\n" + msg,
-        moreInfo = t.getStackTrace.mkString("", EOL, EOL)
-      ))
+        moreInfo = t.getStackTrace.mkString("", EOL, EOL)))
   }.result().withFallback(RejectionHandler.default)
 
   private val logDuration = extractRequestContext.flatMap { ctx ⇒

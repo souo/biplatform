@@ -12,7 +12,6 @@ object RequestParams {
     port:   Int,
     db:     String,
     user:   String,
-    pwd:    String
-  )
+    pwd:    String)
 
 }

@@ -10,9 +10,8 @@ import cats.syntax.either._
 
 class ReportNode(
   queryRouteNode: ActorRef,
-  statusKeeper:   ActorRef
-)
-    extends SleepAbleNode with Stash {
+  statusKeeper:   ActorRef)
+  extends SleepAbleNode with Stash {
 
   import ReportNode._
 
@@ -99,9 +98,7 @@ class ReportNode(
         ReportQuery(
           null.asInstanceOf[QueryModel],
           null.asInstanceOf[UUID],
-          props
-        )
-      ){ r ⇒
+          props)){ r ⇒
           val newProps = r.properties ++ props
           r.copy(properties = newProps)
         }

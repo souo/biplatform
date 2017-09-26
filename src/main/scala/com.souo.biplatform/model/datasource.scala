@@ -32,13 +32,12 @@ object JdbcSourceType {
 }
 
 case class JdbcSource(
-    `type`: String,
-    host:   String,
-    port:   Int,
-    user:   String,
-    pwd:    String,
-    db:     String
-) extends DataSource with JdbcSourceFunctionImpl {
+  `type`: String,
+  host:   String,
+  port:   Int,
+  user:   String,
+  pwd:    String,
+  db:     String) extends DataSource with JdbcSourceFunctionImpl {
 
   val url = `type` match {
     case JdbcSourceType.MYSQL ⇒ s"jdbc:mysql://$host:$port/$db"
@@ -65,8 +64,7 @@ trait JdbcSourceFunctionImpl extends DataSourceFunction with StrictLogging {
 
   override def check(): Result[Unit] = getConnection.map(_.close()).leftMap { t ⇒
     InValidConnectParam(
-      "无法连接指定的数据源，请检查配置参数"
-    )
+      "无法连接指定的数据源，请检查配置参数")
   }
   def withDb[T](f: (Connection) ⇒ Result[T]): Result[T] = {
     logger.info("open jdbc connection")
@@ -152,9 +150,7 @@ case class ColumnInfo(
   comment: String,
   @ApiModelProperty(
     dataType        = "string",
-    allowableValues = "STRING,DATE,NUMERIC"
-  ) dataType: DataType
-)
+    allowableValues = "STRING,DATE,NUMERIC") dataType: DataType)
 
 object DataSource {
   def jdbc(
@@ -163,8 +159,7 @@ object DataSource {
     port:   Int,
     db:     String,
     user:   String,
-    pwd:    String
-  ): JdbcSource = {
+    pwd:    String): JdbcSource = {
     JdbcSource(`type`, host, port, db, user, pwd)
   }
 }

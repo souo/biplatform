@@ -46,8 +46,7 @@ class JDBCEngine(dataSource: JdbcSource) extends ExecutionEngine with StrictLogg
               queryBuilder.build(query).fold(throw _, identity)
             case false ⇒
               sys.error("")
-          }
-        )
+          })
       }
 
       //query
@@ -55,20 +54,17 @@ class JDBCEngine(dataSource: JdbcSource) extends ExecutionEngine with StrictLogg
         val metaRow = {
           DataRow(r.heads.dimHeads.map { f ⇒
             DataCell(f.name, ROW_HEADER_HEADER, Map(
-              "caption" → f.caption
-            ))
+              "caption" → f.caption))
           } ::: r.heads.measureHeads.map { f ⇒
             DataCell(f.name, COLUMN_HEADER, Map(
-              "caption" → f.caption
-            ))
+              "caption" → f.caption))
           })
         }
         val head = Source.single(metaRow)
         val settings = JdbcSettings(
           dataSource,
           r.sql,
-          metaRow
-        )
+          metaRow)
         val body = JDBCStream.plainSource(settings)
         head.concat(body)
       })

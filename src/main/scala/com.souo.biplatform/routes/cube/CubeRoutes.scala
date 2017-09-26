@@ -20,7 +20,7 @@ import RequestParams._
 /**
  * @author souo
  */
-@Api(tags = Array("cubes"), produces = "application/json")
+@Api(tags     = Array("cubes"), produces = "application/json")
 @Path("/api/cubes")
 trait CubeRoutes extends RoutesSupport with StrictLogging with SessionSupport with DefaultTimeOut {
 
@@ -38,39 +38,30 @@ trait CubeRoutes extends RoutesSupport with StrictLogging with SessionSupport wi
   @Path("")
   @ApiOperation(
     value      = "获取cube列表",
-    httpMethod = "GET"
-  )
+    httpMethod = "GET")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         name      = "query",
         paramType = "query",
         dataType  = "string",
-        required  = false
-      ),
+        required  = false),
       new ApiImplicitParam(
         name      = "pageNo",
         paramType = "query",
         dataType  = "int",
-        required  = false
-      ),
+        required  = false),
       new ApiImplicitParam(
         name      = "pageSize",
         paramType = "query",
         dataType  = "int",
-        required  = false
-      )
-    )
-  )
+        required  = false)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code     = 200,
         message  = "成功",
-        response = classOf[CubeNode.PageResult]
-      )
-    )
-  )
+        response = classOf[CubeNode.PageResult])))
   def listAllCubes: Route = get {
     pathEnd {
       parameter("pageNo".as[Int] ?, "pageSize".as[Int]?) { (pageNo, pageSize) ⇒
@@ -99,25 +90,18 @@ trait CubeRoutes extends RoutesSupport with StrictLogging with SessionSupport wi
   @Path("")
   @ApiOperation(
     value      = "创建一个新的CUBE",
-    httpMethod = "POST"
-  )
+    httpMethod = "POST")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         paramType = "body",
         dataType  = "com.souo.biplatform.routes.cube.RequestParams$CubeNameAndSchema",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code    = 200,
-        message = "成功"
-      )
-    )
-  )
+        message = "成功")))
   def createNewCube: Route = post {
     pathEnd {
       userFromSession { user ⇒
@@ -143,27 +127,20 @@ trait CubeRoutes extends RoutesSupport with StrictLogging with SessionSupport wi
   @Path("/{cubeId}")
   @ApiOperation(
     value      = "获取一个CUBE",
-    httpMethod = "GET"
-  )
+    httpMethod = "GET")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         name      = "cubeId",
         paramType = "path",
         dataType  = "java.util.UUID",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code     = 200,
         message  = "成功",
-        response = classOf[CubeNameAndSchema]
-      )
-    )
-  )
+        response = classOf[CubeNameAndSchema])))
   def getCubeSchema: Route = get {
     path(Segment) { id ⇒
       userFromSession { user ⇒
@@ -187,31 +164,23 @@ trait CubeRoutes extends RoutesSupport with StrictLogging with SessionSupport wi
   @Path("/{cubeId}")
   @ApiOperation(
     value      = "更新一个CUBE",
-    httpMethod = "PUT"
-  )
+    httpMethod = "PUT")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         name      = "cubeId",
         paramType = "path",
         dataType  = "java.util.UUID",
-        required  = true
-      ),
+        required  = true),
       new ApiImplicitParam(
         paramType = "body",
         dataType  = "com.souo.biplatform.routes.cube.RequestParams$CubeNameAndSchema",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code    = 200,
-        message = "成功"
-      )
-    )
-  )
+        message = "成功")))
   def updateCube: Route = put {
     path(Segment) { id ⇒
       userFromSession { user ⇒
@@ -231,26 +200,19 @@ trait CubeRoutes extends RoutesSupport with StrictLogging with SessionSupport wi
   @Path("/{cubeId}")
   @ApiOperation(
     value      = "删除一个CUBE",
-    httpMethod = "DELETE"
-  )
+    httpMethod = "DELETE")
   @ApiImplicitParams(
     Array(
       new ApiImplicitParam(
         name      = "cubeId",
         paramType = "path",
         dataType  = "java.util.UUID",
-        required  = true
-      )
-    )
-  )
+        required  = true)))
   @ApiResponses(
     Array(
       new ApiResponse(
         code    = 200,
-        message = "成功"
-      )
-    )
-  )
+        message = "成功")))
   def dropCube: Route = delete {
     path(Segment) { cubeId ⇒
       userFromSession { user ⇒

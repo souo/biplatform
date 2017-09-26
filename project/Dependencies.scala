@@ -26,10 +26,8 @@ object Libary {
   val guava = "com.google.guava" % "guava" % "18.0"
   val commonsIo = "commons-io" % "commons-io" % "2.4"
 
-
-
   val slf4japi = "org.slf4j" % "slf4j-api" % slf4jVersion
-  val log4japi = "org.apache.logging.log4j" % "log4j-api"% "2.8.2"
+  val log4japi = "org.apache.logging.log4j" % "log4j-api" % "2.8.2"
   val log4jSlf4jImpl = "org.apache.logging.log4j" % "log4j-slf4j-impl" % "2.8.2"
   val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging" % scalaLoggingVersion
 
@@ -41,11 +39,10 @@ object Libary {
   val jodaTime = "joda-time" % "joda-time" % "2.8.2"
   val jodaConvert = "org.joda" % "joda-convert" % "1.7"
 
-  val circe = Seq("io.circe" %% "circe-core",
+  val circe = Seq(
+    "io.circe" %% "circe-core",
     "io.circe" %% "circe-generic",
-    "io.circe" %% "circe-jawn"
-  ).map(_ % circeVersion)
-
+    "io.circe" %% "circe-jawn").map(_ % circeVersion)
 
   val slick = "com.typesafe.slick" %% "slick" % slickVersion
   val slickHikari = ("com.typesafe.slick" %% "slick-hikaricp" % slickVersion)
@@ -63,8 +60,7 @@ object Libary {
 
   val chill = Seq(
     "com.twitter" %% "chill-akka",
-    "com.twitter" %% "chill-bijection"
-  ).map(_ % chillVersion)
+    "com.twitter" %% "chill-bijection").map(_ % chillVersion)
 
   val akka = Seq(
     "com.typesafe.akka" %% "akka-slf4j",
@@ -74,13 +70,11 @@ object Libary {
     "com.typesafe.akka" %% "akka-cluster",
     "com.typesafe.akka" %% "akka-cluster-sharding",
     "com.typesafe.akka" %% "akka-cluster-metrics",
-    "com.typesafe.akka" %% "akka-cluster-tools"
-  ).map(_ % akkaV)
+    "com.typesafe.akka" %% "akka-cluster-tools").map(_ % akkaV)
 
   val akkaHttp = Seq(
     "com.typesafe.akka" %% "akka-http",
-    "com.typesafe.akka" %% "akka-http-core"
-  ).map(_ % akkaHttpV) :+ "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpV % Test
+    "com.typesafe.akka" %% "akka-http-core").map(_ % akkaHttpV) :+ "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpV % Test
 
   val levelDb = "org.iq80.leveldb" % "leveldb" % "0.7"
   val levelDbJni = "org.fusesource.leveldbjni" % "leveldbjni-all" % "1.8"
@@ -88,48 +82,36 @@ object Libary {
   val akkaPersistenceJdbc = "com.github.dnvriend" %% "akka-persistence-jdbc" % "2.6.12"
   val akkaPersistenceStack = Seq(levelDb, levelDbJni, akkaPersistenceJdbc)
 
-
   val akkaHttpSession = "com.softwaremill.akka-http-session" %% "core" % "0.3.0"
-
 
   val akkaStack = Seq(
     akka,
     akkaHttp,
     akkaPersistenceStack,
     chill,
-    Seq(akkaHttpSession, sigarLoader)
-  ).flatten
-
+    Seq(akkaHttpSession, sigarLoader)).flatten
 
   val swaggerStack =
-    Seq("io.swagger" % "swagger-core",
+    Seq(
+      "io.swagger" % "swagger-core",
       "io.swagger" % "swagger-annotations",
       "io.swagger" % "swagger-models",
       "io.swagger" % "swagger-jaxrs").map(_ % swaggerVersion) :+ "io.swagger" %% "swagger-scala-module" % "1.0.3"
 
-
-  val kylinJdbc = ("org.apache.kylin" %  "kylin-jdbc" % kylinVersion).exclude(
-    "org.apache.calcite.avatica", "avatica"
-  ).exclude(
-    "com.fasterxml.jackson.core", "jackson-databind"
-  ).exclude(
-    "com.fasterxml.jackson.core" , "jackson-core"
-  ).exclude(
-    "com.fasterxml.jackson.core","jackson-annotations"
-  )
+  val kylinJdbc = ("org.apache.kylin" % "kylin-jdbc" % kylinVersion).exclude(
+    "org.apache.calcite.avatica", "avatica").exclude(
+      "com.fasterxml.jackson.core", "jackson-databind").exclude(
+        "com.fasterxml.jackson.core", "jackson-core").exclude(
+          "com.fasterxml.jackson.core", "jackson-annotations")
 
   val avatica = ("org.apache.calcite.avatica" % "avatica" % "1.8.0").exclude(
-    "com.fasterxml.jackson.core", "jackson-databind"
-  ).exclude(
-    "com.fasterxml.jackson.core" , "jackson-core"
-  ).exclude(
-    "com.fasterxml.jackson.core","jackson-annotations"
-  )
+    "com.fasterxml.jackson.core", "jackson-databind").exclude(
+      "com.fasterxml.jackson.core", "jackson-core").exclude(
+        "com.fasterxml.jackson.core", "jackson-annotations")
 
   val kylin = Seq(
     kylinJdbc,
-    avatica
-  )
+    avatica)
 
   val openCsv = "com.opencsv" % "opencsv" % opencsvVersion
 
@@ -146,8 +128,7 @@ object Dependencies {
     jodaTime,
     jodaConvert,
     commonsIo,
-    openCsv
-  ) ++ unitTestingStack ++ swaggerStack ++ kylin
+    openCsv) ++ unitTestingStack ++ swaggerStack ++ kylin
 
   val fileServer = unitTestingStack
 }

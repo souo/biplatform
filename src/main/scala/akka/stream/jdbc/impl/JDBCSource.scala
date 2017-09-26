@@ -11,7 +11,7 @@ import org.reactivestreams.Publisher
  * @author souo
  */
 private[akka] class JDBCSource(settings: JdbcSettings, val attributes: Attributes, shape: SourceShape[DataRow])
-    extends SourceModule[DataRow, NotUsed](shape) {
+  extends SourceModule[DataRow, NotUsed](shape) {
 
   override def create(context: MaterializationContext): (Publisher[DataRow], NotUsed) = {
     val materializer = ActorMaterializerHelper.downcast(context.materializer)

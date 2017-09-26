@@ -13,7 +13,7 @@ import scala.concurrent.duration._
  * @author souo
  */
 object ClusterMain extends HttpService
-    with StrictLogging {
+  with StrictLogging {
   var host = "0.0.0.0"
   var port = 0
   var http_port: Option[Int] = None
@@ -47,8 +47,7 @@ object ClusterMain extends HttpService
          |       port=$http_port
          |    }
          |}
-       """.stripMargin
-    ).withFallback(ConfigFactory.load("cluster"))
+       """.stripMargin).withFallback(ConfigFactory.load("cluster"))
 
     implicit val designerSystem = ActorSystem("designer", config)
 
@@ -113,8 +112,7 @@ object ClusterMain extends HttpService
         "  -h HOST, --host HOST   Hostname to listen on\n" +
         "  -p PORT, --port PORT   Port to listen on (default: 0)\n" +
         "  --http-port PORT       Port for http Server，note:" +
-        " If you set this parameter, an http service use this port will start, otherwise it will not start )\n"
-    )
+        " If you set this parameter, an http service use this port will start, otherwise it will not start )\n")
     System.exit(exitCode)
   }
 }

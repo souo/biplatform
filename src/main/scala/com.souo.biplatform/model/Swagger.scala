@@ -19,8 +19,7 @@ object Swagger {
     termsOfService:   String              = "",
     contact:          Option[Contact]     = None,
     license:          Option[License]     = None,
-    vendorExtensions: Map[String, Object] = Map()
-  )
+    vendorExtensions: Map[String, Object] = Map())
 
   implicit def swagger2scala(convertMe: SwaggerContact): Option[Contact] = {
     if (convertMe == null) None else Some(Contact(convertMe.getName, convertMe.getUrl, convertMe.getEmail))
@@ -60,8 +59,7 @@ object Swagger {
       convertMe.getTermsOfService,
       convertMe.getContact,
       convertMe.getLicense,
-      convertMe.getVendorExtensions.asScala.toMap
-    )
+      convertMe.getVendorExtensions.asScala.toMap)
   }
 
   implicit def scala2swagger(convertMe: Info): SwaggerInfo = {

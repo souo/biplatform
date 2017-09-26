@@ -17,8 +17,7 @@ object JDBCStream {
     new Source(new JDBCSource(
       settings,
       Attributes.none,
-      sourceShape("JdbcSource")
-    ))
+      sourceShape("JdbcSource")))
   }
 
 }
